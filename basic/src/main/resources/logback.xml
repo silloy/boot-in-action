@@ -1,0 +1,13 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder charset="UTF-8" class="com.zj.log.LogBackExEncoder">
+            <pattern>
+                %date{yyyy-MM-dd HH:mm:ss}  %highlight(%-5level) |%-5.5T{5}| %boldYellow(%20.20thread) | %boldGreen(%-30.30logger{50}:%-20.20method{20}:%-5.5line) | %cyan(%msg%n)
+            </pattern>
+        </encoder>
+    </appender>
+    <logger name="root" level="INFO"/>
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

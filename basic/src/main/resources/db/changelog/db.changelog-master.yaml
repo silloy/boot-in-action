@@ -1,0 +1,26 @@
+databaseChangeLog:
+ - changeSet:
+    id: 1
+    author: SU
+    changes:
+      - createTable:
+          tableName: readers
+          columns:
+            - column:
+                name: id
+                type: int
+                autoIncrement: true
+                constraints:
+                  primaryKey: true
+                  nullable: false
+            - column:
+                name: username
+                type: varchar(25)
+                constraints:
+                  unique: true
+                  nullable: false
+            - column:
+                name: password
+                type: varchar(23)
+                constraints:
+                  nullable: false

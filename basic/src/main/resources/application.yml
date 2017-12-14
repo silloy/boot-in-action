@@ -1,0 +1,64 @@
+spring:
+#  main:
+#    banner-mode: off
+  thymeleaf:
+    cache: false
+  jpa:
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+  datasource:
+#    jndi-name: java:/comp/env/jdbc/readingListDS
+    hikari:
+      driver-class-name: com.mysql.jdbc.Driver
+      connection-timeout: 30000
+      max-lifetime: 600000
+      maximum-pool-size: 15
+      idle-timeout: 600000
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://localhost:3306/sboot?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&useSSL=false
+    username: root
+    password: MySQL
+  devtools:
+    restart:
+      exclude: static
+      enabled: true
+#      trigger-file: .trigger
+    livereload:
+      enabled: true
+
+logging:
+  level:
+    root: info
+    org.springframework.security: DEBUG
+  path: /data/logs
+  file: log.log
+  config:
+    classpath: logback.xml
+
+amazon:
+  associateId: ABC
+#  为actuator端点增加context
+management:
+  context-path: /mgmt
+#  指定liquibase加载的文件
+liquibase:
+  change-log: classpath:/db/changelog/db.changelog-master.yaml
+
+#
+#
+#---
+#spring:
+#  profiles: dev
+#logging:
+#  level:
+#    root: Debug
+#
+#
+#---
+#spring:
+#  profiles: production
+#logging:
+#  path: /data/apps/log/
+#  level:
+#    root: WARN
