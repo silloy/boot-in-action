@@ -1,3 +1,4 @@
+
 spring:
 #  main:
 #    banner-mode: off
@@ -44,6 +45,8 @@ management:
 #  指定liquibase加载的文件
 liquibase:
   change-log: classpath:/db/changelog/db.changelog-master.yaml
+server:
+  port: 8001
 
 #
 #
