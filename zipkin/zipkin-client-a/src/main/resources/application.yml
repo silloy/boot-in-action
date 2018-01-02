@@ -1,0 +1,29 @@
+server:
+  port: 9001
+
+
+spring:
+  zipkin:
+    base-url: http://127.0.0.1:9418
+#    enable: true
+  application:
+    name: zipkin-A
+  sleuth:
+    sampler:
+      percentage: 1
+#  cloud:
+#    stream:
+#      kafka:
+#        binder:
+#          brokers: 192.168.89.200:9092
+#          zkNodes: 192.168.89.200:2181
+
+
+
+#  rabbitmq:
+#    host: 127.0.0.1
+#    port: 5672
+#    username: guest
+#    password: guest
+#    connection-timeout: 6000000
+
