@@ -43,7 +43,6 @@ public class HelloAController {
     public String callHome(ModelAndView modelAndView){
         modelAndView.addObject("traceId", TraceContext.traceId());
         log.info("calling trace service-hi=====>" + "traceId: " + TraceContext.traceId() + "<========>" + System.currentTimeMillis());
-
         return restTemplate.getForObject("http://localhost:9004/infos", String.class);
     }
 
