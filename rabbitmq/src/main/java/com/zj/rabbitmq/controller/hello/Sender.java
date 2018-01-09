@@ -25,9 +25,11 @@ public class Sender {
     RabbitTemplate template;
 
     public void send(Integer i) {
-        String context = "hello " + new Date() + " ; numer=" + i;
-        System.out.println("Sender : " + context);
-        this.rabbitTemplate.convertAndSend(RabbitConfig.routeKey, context);
+        for (int j = 0; j <= 100; j++ ) {
+            String context = "hello " + new Date() + "; numer=" + j;
+            System.out.println("Sender : " + context);
+            rabbitTemplate.convertAndSend(RabbitConfig.routeKey, context);
+        }
     }
 
 

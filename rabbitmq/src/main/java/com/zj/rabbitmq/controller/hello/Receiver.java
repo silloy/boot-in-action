@@ -6,6 +6,8 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 import static com.zj.rabbitmq.controller.RabbitConfig.helloQueue;
 
 /**
@@ -21,7 +23,12 @@ public class Receiver {
 
     @RabbitHandler
     public void process(String hello) {
-        System.out.println("Receiver : " + hello + " ==>p0");
+        System.out.println("Receiver : "  + new Date() + "==>" + hello);
+        try {
+            Thread.sleep(2000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }
