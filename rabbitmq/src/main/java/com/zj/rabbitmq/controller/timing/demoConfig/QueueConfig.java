@@ -1,5 +1,6 @@
-package com.zj.rabbitmq.controller.timing;
+package com.zj.rabbitmq.controller.timing.demoConfig;
 
+import com.zj.rabbitmq.controller.timing.ProcessReceiver;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;

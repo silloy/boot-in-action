@@ -1,17 +1,24 @@
 package com.zj.rabbitmq.controller;
 
-import com.zj.rabbitmq.controller.direct.DirectAReceiver;
 import com.zj.rabbitmq.controller.direct.DirectSender;
 import com.zj.rabbitmq.controller.fanout.FanoutSender;
 import com.zj.rabbitmq.controller.header.HeaderSender;
 import com.zj.rabbitmq.controller.hello.Sender;
 import com.zj.rabbitmq.controller.many.MSender;
+import com.zj.rabbitmq.controller.timing.ProcessReceiver;
+import com.zj.rabbitmq.controller.timing.ProcessSender;
 import com.zj.rabbitmq.controller.timing.TimingSender;
 import com.zj.rabbitmq.controller.topic.TopicSender;
 import org.springframework.amqp.core.AmqpAdmin;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Date;
+import java.util.concurrent.CountDownLatch;
+
+import static com.zj.rabbitmq.controller.timing.demoConfig.QueueConfig.DELAY_QUEUE_PER_MESSAGE_TTL_NAME;
 
 /**
  * Created with IntelliJ IDEA.
@@ -100,6 +107,24 @@ public class BasicController {
     @RequestMapping("/timing")
     public String timingQueue() {
         timingSender.send();
+        return "SUCCESS";
+    }
+
+
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    @RequestMapping("/delay")
+    public String perMessageTTL() throws InterruptedException {
+        ProcessReceiver.latch = new CountDownLatch(3);
+        for (int i = 1; i <= 3; i++) {
+            System.out.println(new Date() + " sender: " + i);
+            long expiration = i * 1000;
+            rabbitTemplate.convertAndSend(DELAY_QUEUE_PER_MESSAGE_TTL_NAME,
+                    (Object) ("Message From delay_queue_per_message_ttl with expiration " + expiration), new ProcessSender(expiration));
+        }
+        ProcessReceiver.latch.await();
         return "SUCCESS";
     }
 }

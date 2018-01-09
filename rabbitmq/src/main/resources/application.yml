@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: rabbitmq
+  rabbitmq:
+    host: 192.168.89.200
+    port: 5672
+    username: guest
+    password: guest
+  output:
+    ansi:
+      enabled: always
+logging:
+  level:
+    root: info
+debug: false
+server:
+  port: 8979
+
+
+
+

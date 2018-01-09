@@ -1,0 +1,16 @@
+server:
+  port: 8115
+spring:
+  application:
+    name: bcloud
+
+eureka:
+  instance:
+     prefer-ip-address: true
+     status-page-url: http://localhost:${server.port}/swagger-ui.html
+
+
+
+management:
+  security:
+    enabled: false

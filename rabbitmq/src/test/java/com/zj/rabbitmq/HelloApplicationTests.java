@@ -18,10 +18,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 
-import static com.zj.rabbitmq.controller.TimingRabbitConfig.DELAY_EXCHANGE_NAME_A;
-import static com.zj.rabbitmq.controller.TimingRabbitConfig.DELAY_QUEUE_PER_MESSAGE_TTL_NAME_A;
 import static com.zj.rabbitmq.controller.TimingRabbitConfig.DELAY_QUEUE_PER_QUEUE_TTL_NAME_A;
-import static com.zj.rabbitmq.controller.timing.QueueConfig.*;
+import static com.zj.rabbitmq.controller.timing.demoConfig.QueueConfig.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -103,24 +101,24 @@ public class HelloApplicationTests {
     private RabbitTemplate rabbitTemplate;
 
     @Test
-    public void testDelayQueuePerMessageTTL() throws InterruptedException {
+    public void perMessageTTL() throws InterruptedException {
         ProcessReceiver.latch = new CountDownLatch(3);
         for (int i = 1; i <= 3; i++) {
             System.out.println(new Date() + " sender: " + i);
             long expiration = i * 1000;
             rabbitTemplate.convertAndSend(DELAY_QUEUE_PER_MESSAGE_TTL_NAME,
-                    ("Message From delay_queue_per_message_ttl with expiration " + expiration).getBytes(), new ProcessSender(expiration));
+                    (Object) ("Message From delay_queue_per_message_ttl with expiration " + expiration), new ProcessSender(expiration));
         }
         ProcessReceiver.latch.await();
     }
 
     @Test
-    public void testDelayQueuePerQueueTTL() throws InterruptedException {
+    public void perQueueTTL() throws InterruptedException {
         ProcessReceiver.latch = new CountDownLatch(3);
         for (int i = 1; i <= 3; i++) {
             System.out.println(new Date() + " sender: " + i);
             rabbitTemplate.convertAndSend(DELAY_QUEUE_PER_QUEUE_TTL_NAME_A,
-                    ("Message From delay_queue_per_queue_ttl with expiration " + QUEUE_EXPIRATION).getBytes());
+                    ("Message From delay_queue_per_queue_ttl with expiration " + QUEUE_EXPIRATION));
         }
         ProcessReceiver.latch.await();
     }
