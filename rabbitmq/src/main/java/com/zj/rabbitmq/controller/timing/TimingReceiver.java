@@ -1,6 +1,7 @@
-package com.zj.rabbitmq.controller.header;
+package com.zj.rabbitmq.controller.timing;
 
 import com.zj.rabbitmq.controller.HeadersRabbitConfig;
+import com.zj.rabbitmq.controller.TimingRabbitConfig;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
@@ -15,8 +16,8 @@ import java.util.Date;
  * CopyRight: Zhouji
  */
 @Component
-@RabbitListener(queues = HeadersRabbitConfig.haQueue)
-public class HeaderReceiver {
+@RabbitListener(queues = TimingRabbitConfig.taQueue)
+public class TimingReceiver {
 
     @RabbitHandler
     public void process(byte[] message) {
@@ -24,10 +25,4 @@ public class HeaderReceiver {
         System.out.println("receiver: " + new Date() + "===>" + receiveStr);
     }
 
-
-//    @RabbitListener(queues = HeadersRabbitConfig.haQueue)
-//    public void processA(byte[] message) {
-//        String receiveStr = new String(message);
-//        System.out.println("receiveA : " + receiveStr);
-//    }
 }

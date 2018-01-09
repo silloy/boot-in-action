@@ -6,6 +6,7 @@ import com.zj.rabbitmq.controller.fanout.FanoutSender;
 import com.zj.rabbitmq.controller.header.HeaderSender;
 import com.zj.rabbitmq.controller.hello.Sender;
 import com.zj.rabbitmq.controller.many.MSender;
+import com.zj.rabbitmq.controller.timing.TimingSender;
 import com.zj.rabbitmq.controller.topic.TopicSender;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,6 +90,16 @@ public class BasicController {
     @RequestMapping("/head")
     public String headQueue() {
         headerSender.send();
+        return "SUCCESS";
+    }
+
+
+    @Autowired
+    TimingSender timingSender;
+
+    @RequestMapping("/timing")
+    public String timingQueue() {
+        timingSender.send();
         return "SUCCESS";
     }
 }

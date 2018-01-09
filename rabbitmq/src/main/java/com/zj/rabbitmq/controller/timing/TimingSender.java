@@ -1,5 +1,6 @@
-package com.zj.rabbitmq.controller.header;
+package com.zj.rabbitmq.controller.timing;
 
+import com.zj.rabbitmq.controller.TimingRabbitConfig;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
@@ -7,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-
-import static com.zj.rabbitmq.controller.HeadersRabbitConfig.headersExchange;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,18 +17,18 @@ import static com.zj.rabbitmq.controller.HeadersRabbitConfig.headersExchange;
  * CopyRight: Zhouji
  */
 @Component
-public class HeaderSender {
+public class TimingSender {
 
     @Autowired
     AmqpTemplate rabbitTemplate;
 
     public void send() {
         Message message = MessageBuilder.withBody(("sender:" + new Date()).getBytes())
-                .setHeader("name", "jobs")
+//                .setExpiration(String.valueOf(30 * 1000))   // 毫秒
+//                .setHeader("name", "jobs")
                 .build();
         System.out.println("Sender : " + new String(message.getBody()));
-//        rabbitTemplate.send(message);
-        rabbitTemplate.convertAndSend(headersExchange, "", message);
+        rabbitTemplate.convertAndSend(TimingRabbitConfig.timingExange, TimingRabbitConfig.timingRoute, message);
     }
 
 

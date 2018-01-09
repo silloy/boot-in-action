@@ -44,9 +44,8 @@ public class HeadersRabbitConfig {
         //all:表示所有的键值对都匹配才能接受到消息
         //any:表示只要有键值对匹配就能接受到消息
         headers.put("x-match", "any");
-        headers.put("name", "jobs");
 //        headers.put("age", 31);
-        return new HeadersExchange(headersExchange, durable, autoDelete);
+        return new HeadersExchange(headersExchange, durable, autoDelete, headers);
     }
 
     @Bean                   // @Qualifier("queueA")

@@ -5,12 +5,23 @@ import com.zj.rabbitmq.controller.fanout.FanoutSender;
 import com.zj.rabbitmq.controller.header.HeaderSender;
 import com.zj.rabbitmq.controller.hello.Sender;
 import com.zj.rabbitmq.controller.many.MSender;
+import com.zj.rabbitmq.controller.timing.ProcessSender;
+import com.zj.rabbitmq.controller.timing.ProcessReceiver;
 import com.zj.rabbitmq.controller.topic.TopicSender;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.Date;
+import java.util.concurrent.CountDownLatch;
+
+import static com.zj.rabbitmq.controller.TimingRabbitConfig.DELAY_EXCHANGE_NAME_A;
+import static com.zj.rabbitmq.controller.TimingRabbitConfig.DELAY_QUEUE_PER_MESSAGE_TTL_NAME_A;
+import static com.zj.rabbitmq.controller.TimingRabbitConfig.DELAY_QUEUE_PER_QUEUE_TTL_NAME_A;
+import static com.zj.rabbitmq.controller.timing.QueueConfig.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -82,5 +93,46 @@ public class HelloApplicationTests {
     public void headerQueue() {
         headerSender.send();
     }
+
+
+
+
+
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    @Test
+    public void testDelayQueuePerMessageTTL() throws InterruptedException {
+        ProcessReceiver.latch = new CountDownLatch(3);
+        for (int i = 1; i <= 3; i++) {
+            System.out.println(new Date() + " sender: " + i);
+            long expiration = i * 1000;
+            rabbitTemplate.convertAndSend(DELAY_QUEUE_PER_MESSAGE_TTL_NAME,
+                    ("Message From delay_queue_per_message_ttl with expiration " + expiration).getBytes(), new ProcessSender(expiration));
+        }
+        ProcessReceiver.latch.await();
+    }
+
+    @Test
+    public void testDelayQueuePerQueueTTL() throws InterruptedException {
+        ProcessReceiver.latch = new CountDownLatch(3);
+        for (int i = 1; i <= 3; i++) {
+            System.out.println(new Date() + " sender: " + i);
+            rabbitTemplate.convertAndSend(DELAY_QUEUE_PER_QUEUE_TTL_NAME_A,
+                    ("Message From delay_queue_per_queue_ttl with expiration " + QUEUE_EXPIRATION).getBytes());
+        }
+        ProcessReceiver.latch.await();
+    }
+
+    @Test
+    public void testFailMessage() throws InterruptedException {
+        ProcessReceiver.latch = new CountDownLatch(6);
+        for (int i = 1; i <= 3; i++) {
+            rabbitTemplate.convertAndSend(DELAY_PROCESS_QUEUE_NAME, ProcessReceiver.FAIL_MESSAGE);
+        }
+        ProcessReceiver.latch.await();
+    }
+
 
 }

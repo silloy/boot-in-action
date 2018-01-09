@@ -7,6 +7,8 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import static com.zj.rabbitmq.controller.TimingRabbitConfig.taQueue;
+
 /**
  * Created with IntelliJ IDEA.
  * User: SuShaohua
@@ -29,7 +31,6 @@ FanoutRabbitConfig {
     public static final String aQueue = "fanout.AA";
     public static final String bQueue = "fanout.BB";
     public static final String cQueue = "fanout.CC";
-
     public static final String fanoutExchange = "fanoutExchange";
 
 
@@ -47,6 +48,7 @@ FanoutRabbitConfig {
     public Queue CMessage() {
         return new Queue(cQueue);
     }
+
 
     @Bean
     FanoutExchange fanoutExchange() {
@@ -66,6 +68,11 @@ FanoutRabbitConfig {
     @Bean
     Binding bindingExchangeC(Queue CMessage, FanoutExchange fanoutExchange) {
         return BindingBuilder.bind(CMessage).to(fanoutExchange);
+    }
+
+    @Bean
+    Binding timingExchangeC(FanoutExchange fanoutExchange) {
+        return BindingBuilder.bind(new Queue(taQueue)).to(fanoutExchange);
     }
 
 }
