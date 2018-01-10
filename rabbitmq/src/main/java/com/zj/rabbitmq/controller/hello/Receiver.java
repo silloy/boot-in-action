@@ -23,12 +23,14 @@ public class Receiver {
 
     @RabbitHandler
     public void process(String hello) {
-        System.out.println("Receiver : "  + new Date() + "==>" + hello);
+
+        System.out.println("[x] Proccessing... at " + new Date() + " " + hello);
         try {
-            Thread.sleep(2000L);
+            Thread.sleep(15000L);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        System.out.println("[x] Donecessing... at " + new Date() + " " + hello);
     }
 
 }
