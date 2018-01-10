@@ -67,7 +67,7 @@ public class TimingRabbitConfig {
 
     public final static String DELAY_QUEUE_PER_MESSAGE_TTL_NAME_A = "delay_queue_per_message_ttl";
 
-    public final static String process_queue = "delay_process_queue";
+    public final static String PROCESS_QUEUE = "delay_process_queue";
 
     public final static String DELAY_EXCHANGE = "delay_exchange";
 
@@ -76,13 +76,13 @@ public class TimingRabbitConfig {
     Queue delayQueuePerMessageTTL() {
         return QueueBuilder.durable(DELAY_QUEUE_PER_MESSAGE_TTL_NAME_A)
                 .withArgument("x-dead-letter-exchange", DELAY_EXCHANGE) // DLX，dead letter发送到的exchange
-                .withArgument("x-dead-letter-routing-key", process_queue) // dead letter携带的routing key
+                .withArgument("x-dead-letter-routing-key", PROCESS_QUEUE) // dead letter携带的routing key
                 .build();
     }
 
     @Bean
     Queue delayProcessQueue() {
-        return QueueBuilder.durable(process_queue)
+        return QueueBuilder.durable(PROCESS_QUEUE)
                 .build();
     }
 
@@ -90,10 +90,12 @@ public class TimingRabbitConfig {
     Binding dlxBinding(Queue delayProcessQueue) {
         return BindingBuilder.bind(delayProcessQueue)
                 .to(new DirectExchange(DELAY_EXCHANGE))
-                .with(process_queue);
+                .with(PROCESS_QUEUE);
     }
 
 
+
+    /*****************delayqueueTimin******************/
 
     public final static String DELAY_QUEUE_PER_QUEUE_TTL_NAME_A = "delay_queue_per_queue_ttl";
     public final static int QUEUE_EXPIRATION = 4000;
@@ -108,7 +110,7 @@ public class TimingRabbitConfig {
     Queue delayQueuePerQueueTTL() {
         return QueueBuilder.durable(DELAY_QUEUE_PER_QUEUE_TTL_NAME_A)
                 .withArgument("x-dead-letter-exchange", DELAY_EXCHANGE) // DLX
-                .withArgument("x-dead-letter-routing-key", process_queue) // dead letter携带的routing key
+                .withArgument("x-dead-letter-routing-key", PROCESS_QUEUE) // dead letter携带的routing key
                 .withArgument("x-message-ttl", QUEUE_EXPIRATION) // 设置队列的过期时间
                 .build();
     }
@@ -127,7 +129,7 @@ public class TimingRabbitConfig {
     SimpleMessageListenerContainer processContainer(org.springframework.amqp.rabbit.connection.ConnectionFactory connectionFactory, ProcessReceiver processReceiver) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.setQueueNames(process_queue);
+        container.setQueueNames(PROCESS_QUEUE);
         container.setMessageListener(new MessageListenerAdapter(processReceiver));
         return container;
     }

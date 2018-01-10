@@ -18,7 +18,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 
+import static com.zj.rabbitmq.controller.TimingRabbitConfig.DELAY_QUEUE_PER_MESSAGE_TTL_NAME_A;
 import static com.zj.rabbitmq.controller.TimingRabbitConfig.DELAY_QUEUE_PER_QUEUE_TTL_NAME_A;
+import static com.zj.rabbitmq.controller.TimingRabbitConfig.PROCESS_QUEUE;
 import static com.zj.rabbitmq.controller.timing.demoConfig.QueueConfig.*;
 
 /**
@@ -106,11 +108,12 @@ public class HelloApplicationTests {
         for (int i = 1; i <= 3; i++) {
             System.out.println(new Date() + " sender: " + i);
             long expiration = i * 1000;
-            rabbitTemplate.convertAndSend(DELAY_QUEUE_PER_MESSAGE_TTL_NAME,
+            rabbitTemplate.convertAndSend(DELAY_QUEUE_PER_MESSAGE_TTL_NAME_A,
                     (Object) ("Message From delay_queue_per_message_ttl with expiration " + expiration), new ProcessSender(expiration));
         }
         ProcessReceiver.latch.await();
     }
+
 
     @Test
     public void perQueueTTL() throws InterruptedException {
@@ -123,11 +126,12 @@ public class HelloApplicationTests {
         ProcessReceiver.latch.await();
     }
 
+
     @Test
     public void testFailMessage() throws InterruptedException {
         ProcessReceiver.latch = new CountDownLatch(6);
         for (int i = 1; i <= 3; i++) {
-            rabbitTemplate.convertAndSend(DELAY_PROCESS_QUEUE_NAME, ProcessReceiver.FAIL_MESSAGE);
+            rabbitTemplate.convertAndSend(PROCESS_QUEUE, ProcessReceiver.FAIL_MESSAGE);
         }
         ProcessReceiver.latch.await();
     }
