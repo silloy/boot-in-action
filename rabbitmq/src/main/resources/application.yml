@@ -10,6 +10,9 @@ spring:
   output:
     ansi:
       enabled: always
+  boot:
+    admin:
+      url: http://localhost:${server.port}/admin
 logging:
   level:
     root: info
@@ -17,6 +20,10 @@ debug: false
 server:
   port: 8979
 
+
+
+#spring.jackson.serialization.indent_output=true
+#endpoints.health.sensitive=false
 
 
 

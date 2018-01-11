@@ -1,6 +1,7 @@
 package com.zj.rabbitmq;
 
 import com.zj.rabbitmq.controller.hello.Sender;
+import de.codecentric.boot.admin.config.EnableAdminServer;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -14,6 +15,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @ComponentScan("com.zj")
+@EnableAdminServer
 public class RabbitmqApplication {
 
     public static void main(String[] args) {
