@@ -1,12 +1,12 @@
 package com.zj.rabbitmq.controller;
 
-import com.rabbitmq.client.ConnectionFactory;
 import com.zj.rabbitmq.controller.timing.ProcessReceiver;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.QueueBuilder;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.context.annotation.Bean;
@@ -126,7 +126,7 @@ public class TimingRabbitConfig {
 
 
     @Bean
-    SimpleMessageListenerContainer processContainer(org.springframework.amqp.rabbit.connection.ConnectionFactory connectionFactory, ProcessReceiver processReceiver) {
+    SimpleMessageListenerContainer processContainer(ConnectionFactory connectionFactory, ProcessReceiver processReceiver) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
         container.setQueueNames(PROCESS_QUEUE);
