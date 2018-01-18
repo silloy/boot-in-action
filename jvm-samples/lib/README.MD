@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=lib/taobao-sdk-java-auto_1455552377940-20160607.jar -DgroupId=cn.taobao-sdk -DartifactId=forsms -Dversion=20160607 -Dpackaging=jar

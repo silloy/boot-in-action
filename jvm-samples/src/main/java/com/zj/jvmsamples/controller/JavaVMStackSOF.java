@@ -20,8 +20,9 @@ public class JavaVMStackSOF {
 
     public static void main(String[] args) throws InterruptedException {
         JavaVMStackSOF oom = new JavaVMStackSOF();
+        int[][][] aray = new int[1][0][-1];
         try {
-            fillHeap(10000);
+//            fillHeap(10000);
         } catch (Throwable e) {
             System.out.println("stack Length: " + oom.stackLength);
             throw e;

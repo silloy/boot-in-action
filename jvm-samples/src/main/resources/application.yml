@@ -1,0 +1,6 @@
+server:
+  port: 8978
+spring:
+  application:
+    name: jvm-demo
+
