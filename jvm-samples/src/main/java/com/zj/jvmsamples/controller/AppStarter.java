@@ -22,7 +22,7 @@ public class AppStarter {
         List<Integer> list = new ArrayList<>();
         list.add(5);
         list.add(6);
-        System.out.println(list.stream().map(i -> getNewList(i)).flatMap(Collection::stream).collect(Collectors.toList()));
+        System.out.println(list.stream().map(AppStarter::getNewList).flatMap(Collection::stream).collect(Collectors.toList()));
     }
 
 
