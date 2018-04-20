@@ -2,10 +2,10 @@ spring:
   application:
     name: rabbitmq
   rabbitmq:
-    host: 192.168.89.200
+    host: 192.168.103.114
     port: 5672
-    username: guest
-    password: guest
+    username: ssh
+    password: 123456
     virtual-host: '/'
   output:
     ansi:
