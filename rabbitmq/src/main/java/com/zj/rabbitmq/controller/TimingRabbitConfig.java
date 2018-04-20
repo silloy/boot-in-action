@@ -65,6 +65,11 @@ public class TimingRabbitConfig {
 
     /*****************delayqueue******************/
 
+    /**
+     * 发送消息到 routingKey: DELAY_QUEUE_PER_MESSAGE_TTL_NAME_A
+     * 由队列 PROCESS_QUEUE 处理
+     */
+
     public final static String DELAY_QUEUE_PER_MESSAGE_TTL_NAME_A = "delay_queue_per_message_ttl";
 
     public final static String PROCESS_QUEUE = "delay_process_queue";
@@ -97,6 +102,10 @@ public class TimingRabbitConfig {
 
     /*****************delayqueueTimin******************/
 
+    /**
+     * 发送消息到 routingKey: DELAY_QUEUE_PER_MESSAGE_TTL_NAME_A
+     * 由队列 PROCESS_QUEUE 处理
+     */
     public final static String DELAY_QUEUE_PER_QUEUE_TTL_NAME_A = "delay_queue_per_queue_ttl";
     public final static int QUEUE_EXPIRATION = 4000;
     public final static String PER_QUEUE_TTL_EXCHANGE_NAME = "per_queue_ttl_exchange";
@@ -123,8 +132,12 @@ public class TimingRabbitConfig {
     }
 
 
-
-
+    /**
+     * 与ProcessReceiver配合使用，如果不适用该方法，可以使用注解 @RabbitListener 和 @RabbitHandler 注解处理  PROCESS_QUEUE
+     * @param connectionFactory
+     * @param processReceiver
+     * @return
+     */
     @Bean
     SimpleMessageListenerContainer processContainer(ConnectionFactory connectionFactory, ProcessReceiver processReceiver) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
