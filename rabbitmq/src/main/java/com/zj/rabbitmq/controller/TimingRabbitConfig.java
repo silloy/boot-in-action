@@ -68,6 +68,7 @@ public class TimingRabbitConfig {
     /**
      * 发送消息到 routingKey: DELAY_QUEUE_PER_MESSAGE_TTL_NAME_A
      * 由队列 PROCESS_QUEUE 处理
+     * 每一条消息都可以设置过期时间
      */
 
     public final static String DELAY_QUEUE_PER_MESSAGE_TTL_NAME_A = "delay_queue_per_message_ttl";
@@ -105,6 +106,7 @@ public class TimingRabbitConfig {
     /**
      * 发送消息到 routingKey: DELAY_QUEUE_PER_MESSAGE_TTL_NAME_A
      * 由队列 PROCESS_QUEUE 处理
+     * 每一条消息都可以设置过期时间
      */
     public final static String DELAY_QUEUE_PER_QUEUE_TTL_NAME_A = "delay_queue_per_queue_ttl";
     public final static int QUEUE_EXPIRATION = 4000;
